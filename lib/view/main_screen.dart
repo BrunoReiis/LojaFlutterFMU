@@ -19,7 +19,7 @@ class MainScreen extends StatelessWidget {
     );
 
     return GetBuilder<ThemeController>(
-      builder: (ThemeController) => Scaffold(
+      builder: (themeController) => Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
@@ -30,8 +30,8 @@ class MainScreen extends StatelessWidget {
               children: const [
                 HomeScreen(),
                 ShoppingScreen(),
-                AccountScreen(),
                 WishlistScreen(),
+                AccountScreen(),
               ],
             ),
           ),

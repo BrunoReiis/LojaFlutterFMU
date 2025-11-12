@@ -1,12 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:lojaflutter/utils/app_textstyles.dart';
 
-class filterBottomSheet {
+class FilterBottomSheet {
   static void show(BuildContext context) {
     final isdark = Theme.of(context).brightness == Brightness.dark;
 
@@ -122,7 +118,7 @@ class filterBottomSheet {
                             backgroundColor: Theme.of(context).cardColor,
                             selectedColor: Theme.of(
                               context,
-                            ).primaryColor.withOpacity(0.2),
+                            ).primaryColor.withValues(alpha: 0.2),
                             labelStyle: AppTextStyle.withColor(
                               AppTextStyle.bodyMedium,
                               category == 'All'

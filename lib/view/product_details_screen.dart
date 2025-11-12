@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lojaflutter/models/product.dart';
 import 'package:lojaflutter/utils/app_textstyles.dart';
 import 'package:lojaflutter/view/widgets/size_selector.dart';
@@ -171,25 +170,24 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(width: screenWidth * 0.04),
-                Expanded(
+              Expanded(
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(
                       vertical: screenHeight * 0.02,
                     ),
-                  backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                   ),
                   child: Text(
                     'Buy Now',
                     style: AppTextStyle.withColor(
                       AppTextStyle.buttonMedium,
-                     Colors.white,
+                      Colors.white,
                     ),
                   ),
                 ),
               ),
-              
             ],
           ),
         ),
@@ -197,30 +195,24 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  // share porduct
   Future<void> _shareProduct(
     BuildContext context,
     String productName,
     String description,
   ) async {
-    // get the render box for share position origin (required for ipad)
-    final box = context.findRenderObject() as RenderBox?;
-
-    const String shopLink = 'https:// yourshop.com/product/cotton-tshirt';
+    const String shopLink = 'https://yourshop.com/product/cotton-tshirt';
     final String shareMessage = '$description\n\nShop now at $shopLink';
 
     try {
-      final ShareResult result = await Share.share(
-        shareMessage,
-        subject: productName,
-        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+      final ShareResult result = await SharePlus.instance.share(
+        ShareParams(text: shareMessage, subject: productName),
       );
 
       if (result.status == ShareResultStatus.success) {
-        debugPrint('Thanks you for sharing!');
+        debugPrint('Thank you for sharing!');
       }
     } catch (e) {
-      debugPrint('Error Sharing : $e');
+      debugPrint('Error Sharing: $e');
     }
   }
 }

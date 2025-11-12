@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojaflutter/utils/app_textstyles.dart';
 import 'package:lojaflutter/view/widgets/category_chips.dart';
 import 'package:lojaflutter/view/widgets/filter_bottom_sheet.dart'
-    show filterBottomSheet;
+    show FilterBottomSheet;
 import 'package:lojaflutter/view/widgets/product_grid.dart';
 
 class ShoppingScreen extends StatelessWidget {
@@ -34,7 +34,7 @@ class ShoppingScreen extends StatelessWidget {
 
           // filiter icon
           IconButton(
-            onPressed: () => filterBottomSheet.show(context),
+            onPressed: () => FilterBottomSheet.show(context),
             icon: Icon(
               Icons.filter_list,
               color: isdark ? Colors.white : Colors.black,

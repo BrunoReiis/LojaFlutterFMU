@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:lojaflutter/utils/app_textstyles.dart';
 import 'package:lojaflutter/view/widgets/filter_bottom_sheet.dart';
 import 'package:lojaflutter/view/widgets/product_grid.dart';
@@ -41,7 +40,7 @@ class AllProductsScreen extends StatelessWidget {
 
           // filiter icon 
           IconButton(
-            onPressed: () => filterBottomSheet.show(context),
+            onPressed: () => FilterBottomSheet.show(context),
             icon: Icon(
               Icons.filter_list,
               color: isdark ? Colors.white : Colors.black,
