@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/models/product.dart';
-import 'package:lojaflutter/models/cart_item.dart';
+import 'package:nexusstore/models/product.dart';
+import 'package:nexusstore/models/cart_item.dart';
 import 'package:get_storage/get_storage.dart';
 import 'dart:convert';
 
@@ -106,3 +106,4 @@ class CartController extends GetxController {
     }
   }
 }
+

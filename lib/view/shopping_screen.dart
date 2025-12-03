@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
-import 'package:lojaflutter/view/widgets/category_chips.dart';
-import 'package:lojaflutter/view/widgets/filter_bottom_sheet.dart'
+import 'package:nexusstore/utils/app_textstyles.dart';
+import 'package:nexusstore/view/widgets/category_chips.dart';
+import 'package:nexusstore/view/widgets/filter_bottom_sheet.dart'
     show FilterBottomSheet;
-import 'package:lojaflutter/view/widgets/product_grid.dart';
+import 'package:nexusstore/view/widgets/product_grid.dart';
 
 class ShoppingScreen extends StatefulWidget {
   const ShoppingScreen({super.key});
@@ -68,3 +68,4 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     );
   }
 }
+

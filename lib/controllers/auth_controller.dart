@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lojaflutter/models/user_model.dart';
+import 'package:nexusstore/models/user_model.dart';
 import 'dart:io';
 import 'dart:convert';
 

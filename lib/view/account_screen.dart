@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/view/wishlist_screen.dart';
-import 'package:lojaflutter/controllers/auth_controller.dart';
-import 'package:lojaflutter/view/signin_screen.dart';
-import 'package:lojaflutter/view/admin_panel.dart';
-import 'package:lojaflutter/view/settings_screen.dart';
-import 'package:lojaflutter/view/help_support_screen.dart';
+import 'package:nexusstore/view/wishlist_screen.dart';
+import 'package:nexusstore/controllers/auth_controller.dart';
+import 'package:nexusstore/view/signin_screen.dart';
+import 'package:nexusstore/view/admin_panel.dart';
+import 'package:nexusstore/view/settings_screen.dart';
+import 'package:nexusstore/view/help_support_screen.dart';
 import 'dart:convert';
 
 class AccountScreen extends StatelessWidget {
@@ -176,3 +176,4 @@ class AccountScreen extends StatelessWidget {
     );
   }
 }
+

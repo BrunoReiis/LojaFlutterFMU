@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lojaflutter/models/user_model.dart';
+import 'package:nexusstore/models/user_model.dart';
 
 class AdminController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -180,3 +180,4 @@ class AdminController extends GetxController {
     _errorMessage.value = '';
   }
 }
+

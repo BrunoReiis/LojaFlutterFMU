@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lojaflutter/controllers/auth_controller.dart';
+import 'package:nexusstore/controllers/auth_controller.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/view/main_screen.dart';
-import 'package:lojaflutter/view/onboarding_screen.dart';
-import 'package:lojaflutter/view/signin_screen.dart';
-import 'package:lojaflutter/view/widgets/nexus_logo.dart';
+import 'package:nexusstore/view/main_screen.dart';
+import 'package:nexusstore/view/onboarding_screen.dart';
+import 'package:nexusstore/view/signin_screen.dart';
+import 'package:nexusstore/view/widgets/nexus_logo.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
@@ -247,4 +247,5 @@ class SplashScreen extends StatelessWidget {
     );
   }
 }
+
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/models/product.dart';
-import 'package:lojaflutter/view/product_details_screen.dart';
-import 'package:lojaflutter/view/widgets/product_card.dart';
-import 'package:lojaflutter/controllers/cart_controller.dart';
+import 'package:nexusstore/models/product.dart';
+import 'package:nexusstore/view/product_details_screen.dart';
+import 'package:nexusstore/view/widgets/product_card.dart';
+import 'package:nexusstore/controllers/cart_controller.dart';
 
 class ProductGrid extends StatelessWidget {
   final String? categoryFilter;
@@ -58,4 +58,5 @@ class ProductGrid extends StatelessWidget {
     );
   }
 }
+
 

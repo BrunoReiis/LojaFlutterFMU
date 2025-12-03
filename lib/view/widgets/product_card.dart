@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lojaflutter/models/product.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
+import 'package:nexusstore/models/product.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -197,4 +197,5 @@ class ProductCard extends StatelessWidget {
     return (((oldPrice - currentPrice) / oldPrice) * 100).round();
   }
 }
+
 

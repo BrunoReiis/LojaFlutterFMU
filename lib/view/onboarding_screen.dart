@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
-import 'package:lojaflutter/controllers/auth_controller.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
+import 'package:nexusstore/controllers/auth_controller.dart';
 import 'signin_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -186,3 +186,4 @@ class OnboardingItem {
     required this.image,
   });
 }
+

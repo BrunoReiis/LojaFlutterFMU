@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
 
 class FilterBottomSheet {
   static void show(BuildContext context) {
@@ -160,3 +160,4 @@ class FilterBottomSheet {
     );
   }
 }
+

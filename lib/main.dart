@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:lojaflutter/controllers/auth_controller.dart';
-import 'package:lojaflutter/controllers/navigation_controller.dart';
-import 'package:lojaflutter/controllers/theme_controller.dart';
-import 'package:lojaflutter/controllers/cart_controller.dart';
+import 'package:nexusstore/controllers/auth_controller.dart';
+import 'package:nexusstore/controllers/navigation_controller.dart';
+import 'package:nexusstore/controllers/theme_controller.dart';
+import 'package:nexusstore/controllers/cart_controller.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/utils/app_themes.dart';
-import 'package:lojaflutter/view/splash_screen.dart';
-import 'package:lojaflutter/view/cart_screen.dart';
+import 'package:nexusstore/utils/app_themes.dart';
+import 'package:nexusstore/view/splash_screen.dart';
+import 'package:nexusstore/view/cart_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

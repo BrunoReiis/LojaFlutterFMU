@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/models/product.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
-import 'package:lojaflutter/view/widgets/size_selector.dart';
-import 'package:lojaflutter/controllers/cart_controller.dart';
+import 'package:nexusstore/models/product.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
+import 'package:nexusstore/view/widgets/size_selector.dart';
+import 'package:nexusstore/controllers/cart_controller.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -230,3 +230,4 @@ class ProductDetailsScreen extends StatelessWidget {
     }
   }
 }
+

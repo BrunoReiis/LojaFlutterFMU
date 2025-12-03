@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Corrigido o import
-import 'package:lojaflutter/utils/app_textstyles.dart'; // Ajuste o caminho conforme o seu projeto
-import 'package:lojaflutter/view/widgets/custom_textfield.dart'; // Ajuste o caminho conforme o seu projeto
+import 'package:nexusstore/utils/app_textstyles.dart'; // Ajuste o caminho conforme o seu projeto
+import 'package:nexusstore/view/widgets/custom_textfield.dart'; // Ajuste o caminho conforme o seu projeto
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
@@ -129,3 +129,4 @@ class ForgotPasswordScreen extends StatelessWidget {
     );
   }
 }
+

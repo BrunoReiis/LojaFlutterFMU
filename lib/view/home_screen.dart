@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/controllers/theme_controller.dart';
-import 'package:lojaflutter/controllers/auth_controller.dart';
-import 'package:lojaflutter/controllers/cart_controller.dart';
-import 'package:lojaflutter/view/all_products_screen.dart';
-import 'package:lojaflutter/view/widgets/category_chips.dart';
-import 'package:lojaflutter/view/widgets/custom_search_bar.dart';
-import 'package:lojaflutter/view/widgets/product_grid.dart';
-import 'package:lojaflutter/view/widgets/sale_banner.dart';
+import 'package:nexusstore/controllers/theme_controller.dart';
+import 'package:nexusstore/controllers/auth_controller.dart';
+import 'package:nexusstore/controllers/cart_controller.dart';
+import 'package:nexusstore/view/all_products_screen.dart';
+import 'package:nexusstore/view/widgets/category_chips.dart';
+import 'package:nexusstore/view/widgets/custom_search_bar.dart';
+import 'package:nexusstore/view/widgets/product_grid.dart';
+import 'package:nexusstore/view/widgets/sale_banner.dart';
 import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {

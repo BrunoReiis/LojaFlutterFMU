@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:lojaflutter/controllers/auth_controller.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
-import 'package:lojaflutter/view/main_screen.dart';
-import 'package:lojaflutter/view/sign_up_screen.dart';
-import 'package:lojaflutter/view/widgets/custom_textfield.dart';
-import 'package:lojaflutter/view/forgot_password_screen.dart';
+import 'package:nexusstore/controllers/auth_controller.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
+import 'package:nexusstore/view/main_screen.dart';
+import 'package:nexusstore/view/sign_up_screen.dart';
+import 'package:nexusstore/view/widgets/custom_textfield.dart';
+import 'package:nexusstore/view/forgot_password_screen.dart';
 
 class SigninScreen extends StatelessWidget {
   SigninScreen({super.key});
@@ -200,3 +200,4 @@ class SigninScreen extends StatelessWidget {
     }
   }
 }
+

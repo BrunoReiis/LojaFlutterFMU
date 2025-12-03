@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/controllers/admin_controller.dart';
-import 'package:lojaflutter/models/user_model.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
+import 'package:nexusstore/controllers/admin_controller.dart';
+import 'package:nexusstore/models/user_model.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
 
 class AdminDashboard extends StatelessWidget {
   const AdminDashboard({super.key});
@@ -350,3 +350,4 @@ class AdminDashboard extends StatelessWidget {
     );
   }
 }
+

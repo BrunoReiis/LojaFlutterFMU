@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lojaflutter/controllers/cart_controller.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
+import 'package:nexusstore/controllers/cart_controller.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -251,3 +251,4 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
+

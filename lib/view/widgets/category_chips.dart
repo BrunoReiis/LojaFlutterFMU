@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
 
 class CategoryChips extends StatefulWidget {
   final Function(String)? onCategorySelected;
@@ -81,4 +81,5 @@ class _CategoryChipsState extends State<CategoryChips> {
     );
   }
 }
+
 

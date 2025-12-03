@@ -1,4 +1,4 @@
-import 'package:lojaflutter/models/product.dart';
+import 'package:nexusstore/models/product.dart';
 
 class CartItem {
   final Product product;
@@ -35,3 +35,4 @@ class CartItem {
     );
   }
 }
+

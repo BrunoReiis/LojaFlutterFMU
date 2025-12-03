@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojaflutter/utils/app_textstyles.dart';
+import 'package:nexusstore/utils/app_textstyles.dart';
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({super.key});
@@ -47,3 +47,4 @@ class CustomSearchBar extends StatelessWidget {
     );
   }
 }
+
