@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lojaflutter/controllers/theme_controller.dart';
+import 'package:lojaflutter/controllers/auth_controller.dart';
+import 'package:lojaflutter/controllers/cart_controller.dart';
 import 'package:lojaflutter/view/all_products_screen.dart';
 import 'package:lojaflutter/view/widgets/category_chips.dart';
 import 'package:lojaflutter/view/widgets/custom_search_bar.dart';
 import 'package:lojaflutter/view/widgets/product_grid.dart';
 import 'package:lojaflutter/view/widgets/sale_banner.dart';
+import 'dart:convert';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String selectedCategory = 'All';
+
+  @override
   Widget build(BuildContext context) {
+    final AuthController authController = Get.find<AuthController>();
+    final CartController cartController = Get.find<CartController>();
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
@@ -19,22 +32,31 @@ class HomeScreen extends StatelessWidget {
           children: [
             // Header Section
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  CircleAvatar(
+                  Obx(() => CircleAvatar(
                     radius: 20,
-                    backgroundImage: AssetImage('assets/images/avatar.jpg'),
-                  ),
-                  SizedBox(width: 12),
+                    backgroundColor: Colors.grey.shade300,
+                    backgroundImage: authController.userData?.photoBase64 != null && authController.userData!.photoBase64!.isNotEmpty
+                        ? MemoryImage(base64Decode(authController.userData!.photoBase64!))
+                        : null,
+                    child: authController.userData?.photoBase64 == null || authController.userData!.photoBase64!.isEmpty
+                        ? Text(
+                            (authController.userData?.name ?? 'U')[0].toUpperCase(),
+                            style: const TextStyle(fontSize: 16),
+                          )
+                        : null,
+                  )),
+                  const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hello Vinicius',
-                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                        _getGreeting(authController),
+                        style: const TextStyle(color: Colors.grey, fontSize: 14),
                       ),
-                      Text(
+                      const Text(
                         'Good Morning',
                         style: TextStyle(
                           fontSize: 16,
@@ -47,12 +69,40 @@ class HomeScreen extends StatelessWidget {
                   // notification icon
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.notifications_outlined),
+                    icon: const Icon(Icons.notifications_outlined),
                   ),
                   // cart button
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_bag_outlined),
+                  Stack(
+                    children: [
+                      IconButton(
+                        onPressed: () => Get.toNamed('/cart'),
+                        icon: const Icon(Icons.shopping_bag_outlined),
+                      ),
+                      Obx(() {
+                        if (cartController.itemCount > 0) {
+                          return Positioned(
+                            right: 8,
+                            top: 8,
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                '${cartController.itemCount}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      }),
+                    ],
                   ),
                   // theme button
                   GetBuilder<ThemeController>(
@@ -73,7 +123,13 @@ class HomeScreen extends StatelessWidget {
             const CustomSearchBar(),
 
             // category chips
-            const CategoryChips(),
+            CategoryChips(
+              onCategorySelected: (category) {
+                setState(() {
+                  selectedCategory = category;
+                });
+              },
+            ),
 
             // sale banner
             const SaleBanner(),
@@ -84,16 +140,16 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Popular Product',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
-                    onTap: () => Get.to(()=> const AllProductsScreen()),
+                    onTap: () => Get.to(() => const AllProductsScreen()),
                     child: Text(
                       'See All',
                       style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
@@ -101,12 +157,28 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            // product  grid
-            const Expanded(child: ProductGrid()),
+            // product grid with filter
+            Expanded(
+              child: ProductGrid(categoryFilter: selectedCategory),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  String _getGreeting(AuthController authController) {
+    String firstName = 'User';
+    
+    if (authController.userData?.name != null && authController.userData!.name.isNotEmpty) {
+      firstName = authController.userData!.name.split(' ').first;
+    } else if (authController.firebaseUser?.displayName != null && authController.firebaseUser!.displayName!.isNotEmpty) {
+      firstName = authController.firebaseUser!.displayName!.split(' ').first;
+    } else if (authController.firebaseUser?.email != null) {
+      firstName = authController.firebaseUser!.email!.split('@').first;
+    }
+    
+    return 'Hello $firstName';
   }
 }
  

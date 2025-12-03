@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lojaflutter/models/product.dart';
 import 'package:lojaflutter/utils/app_textstyles.dart';
 import 'package:lojaflutter/view/widgets/size_selector.dart';
+import 'package:lojaflutter/controllers/cart_controller.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -61,15 +63,19 @@ class ProductDetailsScreen extends StatelessWidget {
 
                 // favorite Button
                 Positioned(
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      product.isFavorite
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: product.isFavorite
-                          ? Theme.of(context).primaryColor
-                          : (isDark ? Colors.white : Colors.black),
+                  child: GetBuilder<CartController>(
+                    builder: (cartController) => IconButton(
+                      onPressed: () {
+                        cartController.toggleWishlist(product);
+                      },
+                      icon: Icon(
+                        cartController.isInWishlist(product.id)
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: cartController.isInWishlist(product.id)
+                            ? Theme.of(context).primaryColor
+                            : (isDark ? Colors.white : Colors.black),
+                      ),
                     ),
                   ),
                 ),
@@ -151,7 +157,15 @@ class ProductDetailsScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.find<CartController>().addToCart(product);
+                    Get.snackbar(
+                      'Success',
+                      '${product.name} added to cart',
+                      snackPosition: SnackPosition.BOTTOM,
+                      duration: const Duration(seconds: 2),
+                    );
+                  },
                   style: OutlinedButton.styleFrom(
                     padding: EdgeInsets.symmetric(
                       vertical: screenHeight * 0.02,

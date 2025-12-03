@@ -4,7 +4,17 @@ import 'package:lojaflutter/utils/app_textstyles.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
-  const ProductCard({super.key, required this.product});
+  final bool isInWishlist;
+  final VoidCallback onWishlistTap;
+  final VoidCallback onAddToCart;
+
+  const ProductCard({
+    super.key,
+    required this.product,
+    this.isInWishlist = false,
+    required this.onWishlistTap,
+    required this.onAddToCart,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +26,9 @@ class ProductCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: isDark
-                ? Colors.black.withValues(alpha: 0.6)
-                : Colors.grey.withValues(alpha: 0.1),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        border: Border.all(
+          color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,13 +39,24 @@ class ProductCard extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 16 / 9,
                 child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.vertical(
+                  borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12),
                   ),
-                  child: Image.asset(
-                    product.imageUrl,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  child: Container(
+                    color: Colors.grey.shade200,
+                    child: Image.asset(
+                      product.imageUrl,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Icon(
+                            Icons.image_not_supported,
+                            color: Colors.grey.shade400,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -50,16 +64,28 @@ class ProductCard extends StatelessWidget {
               Positioned(
                 right: 8,
                 top: 8,
-                child: IconButton(
-                  icon: Icon(
-                    product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: product.isFavorite
-                        ? Theme.of(context).primaryColor
-                        : isDark
-                        ? Colors.grey[400]
-                        : Colors.grey,
+                child: GestureDetector(
+                  onTap: onWishlistTap,
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      isInWishlist ? Icons.favorite : Icons.favorite_border,
+                      color: isInWishlist
+                          ? Colors.red
+                          : Colors.grey.shade600,
+                      size: 18,
+                    ),
                   ),
-                  onPressed: () {},
                 ),
               ),
               if (product.oldPrice != null)
@@ -67,12 +93,11 @@ class ProductCard extends StatelessWidget {
                   left: 8,
                   top: 8,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    // discount text
                     child: Text(
                       '${calculateDiscount(product.price, product.oldPrice!)}% OFF',
                       style: AppTextStyle.withColor(
@@ -91,7 +116,7 @@ class ProductCard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(screenWidth * 0.02),
             child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   product.name,
@@ -106,7 +131,7 @@ class ProductCard extends StatelessWidget {
                 Text(
                   product.category,
                   style: AppTextStyle.withColor(
-                    AppTextStyle.bodyMedium,
+                    AppTextStyle.bodySmall,
                     isDark ? Colors.grey[400]! : Colors.grey[600]!,
                   ),
                 ),
@@ -114,28 +139,50 @@ class ProductCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '\$${product.price.toStringAsFixed(2)}',
+                      'R\$ ${product.price.toStringAsFixed(2)}',
                       style: AppTextStyle.withColor(
                         AppTextStyle.withWeight(
-                          AppTextStyle.bodyLarge,
+                          AppTextStyle.bodyMedium,
                           FontWeight.bold,
                         ),
-                        Theme.of(context).textTheme.bodyLarge!.color!,
+                        Theme.of(context).primaryColor,
                       ),
                     ),
-                    if( product.oldPrice!= null)...[
-                    SizedBox(width: screenWidth * 0.01),
-                    Text(
-                      '\$${product.oldPrice!.toStringAsFixed(2)}',
-                      style: AppTextStyle.withColor(
-                        AppTextStyle.bodySmall,
-                        isDark ? Colors.grey[400]! : Colors.grey[600]!,
-                      ).copyWith(
-                      decoration: TextDecoration.lineThrough,
+                    if (product.oldPrice != null) ...[
+                      SizedBox(width: screenWidth * 0.01),
+                      Text(
+                        'R\$ ${product.oldPrice!.toStringAsFixed(2)}',
+                        style: AppTextStyle.withColor(
+                          AppTextStyle.bodySmall,
+                          isDark ? Colors.grey[400]! : Colors.grey[600]!,
+                        ).copyWith(
+                          decoration: TextDecoration.lineThrough,
+                        ),
                       ),
-                    ),
                     ],
                   ],
+                ),
+                SizedBox(height: screenWidth * 0.02),
+                SizedBox(
+                  width: double.infinity,
+                  height: 32,
+                  child: ElevatedButton(
+                    onPressed: onAddToCart,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    child: Text(
+                      'Adicionar',
+                      style: AppTextStyle.withColor(
+                        AppTextStyle.bodySmall,
+                        Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -146,7 +193,8 @@ class ProductCard extends StatelessWidget {
   }
 
   // Calculate discount
-  int calculateDiscount(double currentPrice, double oldPrice){
-  return(((oldPrice -currentPrice) / oldPrice) * 100). round();
+  int calculateDiscount(double currentPrice, double oldPrice) {
+    return (((oldPrice - currentPrice) / oldPrice) * 100).round();
   }
 }
+

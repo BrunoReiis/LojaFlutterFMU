@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lojaflutter/utils/app_textstyles.dart';
 
 class CategoryChips extends StatefulWidget {
-  const CategoryChips({super.key});
+  final Function(String)? onCategorySelected;
+
+  const CategoryChips({super.key, this.onCategorySelected});
 
   @override
   State<CategoryChips> createState() => _CategoryChipsState();
@@ -10,7 +12,7 @@ class CategoryChips extends StatefulWidget {
 
 class _CategoryChipsState extends State<CategoryChips> {
   int selectIndex = 0;
-  final categories = ['all', 'Men', 'Women', 'Girls'];
+  final categories = ['All', 'Footwear', 'Electronics', 'Clothing', 'Accessories'];
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class _CategoryChipsState extends State<CategoryChips> {
         children: List.generate(
           categories.length,
           (index) => Padding(
-            padding: EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.only(right: 12),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
@@ -40,8 +42,8 @@ class _CategoryChipsState extends State<CategoryChips> {
                     selectIndex == index
                         ? Colors.white
                         : isDark
-                        ? Colors.grey[300]!
-                        : Colors.grey[600]!,
+                            ? Colors.grey[300]!
+                            : Colors.grey[600]!,
                   ),
                 ),
                 selected: selectIndex == index,
@@ -49,6 +51,9 @@ class _CategoryChipsState extends State<CategoryChips> {
                   setState(() {
                     selectIndex = selected ? index : selectIndex;
                   });
+                  if (widget.onCategorySelected != null) {
+                    widget.onCategorySelected!(categories[selectIndex]);
+                  }
                 },
                 selectedColor: Theme.of(context).primaryColor,
                 backgroundColor: isDark ? Colors.grey[800] : Colors.grey[100],
@@ -57,15 +62,15 @@ class _CategoryChipsState extends State<CategoryChips> {
                 ),
                 elevation: selectIndex == index ? 2 : 0,
                 pressElevation: 0,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                labelPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                labelPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 side: BorderSide(
                   color: selectIndex == index
                       ? Colors.transparent
                       : isDark
-                      ? Colors.grey[700]!
-                      : Colors.grey[300]!,
+                          ? Colors.grey[700]!
+                          : Colors.grey[300]!,
                   width: 1,
                 ),
               ),
@@ -76,3 +81,4 @@ class _CategoryChipsState extends State<CategoryChips> {
     );
   }
 }
+

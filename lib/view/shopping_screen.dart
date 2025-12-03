@@ -5,8 +5,15 @@ import 'package:lojaflutter/view/widgets/filter_bottom_sheet.dart'
     show FilterBottomSheet;
 import 'package:lojaflutter/view/widgets/product_grid.dart';
 
-class ShoppingScreen extends StatelessWidget {
+class ShoppingScreen extends StatefulWidget {
   const ShoppingScreen({super.key});
+
+  @override
+  State<ShoppingScreen> createState() => _ShoppingScreenState();
+}
+
+class _ShoppingScreenState extends State<ShoppingScreen> {
+  String selectedCategory = 'All';
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +52,16 @@ class ShoppingScreen extends StatelessWidget {
       body: Column(children: [
       Padding(
       padding: EdgeInsets.only(top: 16),
-      child: CategoryChips(),
+      child: CategoryChips(
+        onCategorySelected: (category) {
+          setState(() {
+            selectedCategory = category;
+          });
+        },
+      ),
       ),
       Expanded(
-      child: ProductGrid(),
+      child: ProductGrid(categoryFilter: selectedCategory),
       ),
       ]
       ),

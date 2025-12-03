@@ -1,169 +1,180 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lojaflutter/controllers/cart_controller.dart';
+import 'package:lojaflutter/utils/app_textstyles.dart';
 
-class Product {
-  final String name;
-  final String imageUrl;
-  final double price;
-  int quantity;
-
-  Product({
-    required this.name,
-    required this.imageUrl,
-    required this.price,
-    this.quantity = 1,
-  });
-}
-
-class CartScreen extends StatefulWidget {
+class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
-
-  @override
-  State<CartScreen> createState() => _CartScreenState();
-}
-
-class _CartScreenState extends State<CartScreen> {
-  // Exemplo de lista de produtos no carrinho
-  final List<Product> products = [
-    Product(
-        name: 'Headset Gamer',
-        imageUrl: 'assets/images/headset.png',
-        price: 299.90),
-    Product(
-        name: 'Teclado Mecânico',
-        imageUrl: 'assets/images/keyboard.png',
-        price: 459.00),
-    Product(
-        name: 'Mouse RGB',
-        imageUrl: 'assets/images/mouse.png',
-        price: 199.00),
-  ];
-
-  double get totalPrice {
-    return products.fold(0, (sum, item) => sum + (item.price * item.quantity));
-  }
-
-  void _removeItem(int index) {
-    setState(() {
-      products.removeAt(index);
-    });
-  }
-
-  void _updateQuantity(int index, int delta) {
-    setState(() {
-      final product = products[index];
-      product.quantity = (product.quantity + delta).clamp(1, 99);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final CartController cartController = Get.find<CartController>();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Meu Carrinho',
-          style: TextStyle(
-            color: isDark ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
+          style: AppTextStyle.withColor(
+            AppTextStyle.h3,
+            isDark ? Colors.white : Colors.black,
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,
-        iconTheme: IconThemeData(
-          color: isDark ? Colors.white : Colors.black,
-        ),
         centerTitle: true,
         elevation: 1,
       ),
-      body: products.isEmpty
-          ? const Center(
-              child: Text(
-                'Seu carrinho está vazio.',
-                style: TextStyle(fontSize: 18),
-              ),
-            )
-          : Column(
+      body: Obx(() {
+        if (cartController.cartItems.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) =>
-                        _buildCartItem(context, index),
+                Icon(
+                  Icons.shopping_cart_outlined,
+                  size: 64,
+                  color: Colors.grey.shade400,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Seu carrinho está vazio',
+                  style: AppTextStyle.withColor(
+                    AppTextStyle.h3,
+                    isDark ? Colors.grey[400]! : Colors.grey[600]!,
                   ),
                 ),
-                _buildTotalSection(),
               ],
             ),
+          );
+        }
+
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: cartController.cartItems.length,
+                itemBuilder: (context, index) =>
+                    _buildCartItem(context, cartController, index),
+              ),
+            ),
+            _buildTotalSection(context, cartController),
+          ],
+        );
+      }),
     );
   }
 
-  Widget _buildCartItem(BuildContext context, int index) {
-    final product = products[index];
+  Widget _buildCartItem(
+    BuildContext context,
+    CartController cartController,
+    int index,
+  ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final item = cartController.cartItems[index];
+    final product = item.product;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: isDark
-                ? Colors.black.withValues(alpha: 0.2)
-                : Colors.grey.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
+        ),
       ),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: const BorderRadius.horizontal(left: Radius.circular(16)),
-            child: Image.asset(
-              product.imageUrl,
+            borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
+            child: Container(
               width: 100,
               height: 100,
-              fit: BoxFit.cover,
+              color: Colors.grey.shade200,
+              child: Image.asset(
+                product.imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Icon(
+                      Icons.image_not_supported,
+                      color: Colors.grey.shade400,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.name,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                    style: AppTextStyle.bodyMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 4),
                   Text(
                     'R\$ ${product.price.toStringAsFixed(2)}',
-                    style: const TextStyle(fontSize: 15, color: Colors.grey),
+                    style: AppTextStyle.withColor(
+                      AppTextStyle.bodySmall,
+                      Theme.of(context).primaryColor,
+                    ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.remove_circle_outline),
-                        onPressed: () => _updateQuantity(index, -1),
+                      GestureDetector(
+                        onTap: () => cartController.updateQuantity(
+                          product.id,
+                          item.quantity - 1,
+                        ),
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: const Icon(Icons.remove, size: 16),
+                        ),
                       ),
-                      Text('${product.quantity}',
-                          style: const TextStyle(fontSize: 16)),
-                      IconButton(
-                        icon: const Icon(Icons.add_circle_outline),
-                        onPressed: () => _updateQuantity(index, 1),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${item.quantity}',
+                        style: AppTextStyle.bodyMedium,
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () => cartController.updateQuantity(
+                          product.id,
+                          item.quantity + 1,
+                        ),
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: const Icon(Icons.add, size: 16),
+                        ),
                       ),
                       const Spacer(),
-                      IconButton(
-                        icon: const Icon(Icons.delete_outline, color: Colors.red),
-                        onPressed: () => _removeItem(index),
+                      GestureDetector(
+                        onTap: () => cartController.removeFromCart(product.id),
+                        child: Icon(
+                          Icons.delete_outline,
+                          color: Colors.red.shade400,
+                          size: 20,
+                        ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -173,18 +184,18 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildTotalSection() {
+  Widget _buildTotalSection(BuildContext context, CartController cartController) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 6,
-            offset: const Offset(0, -2),
+        border: Border(
+          top: BorderSide(
+            color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
           ),
-        ],
+        ),
       ),
       child: SafeArea(
         child: Column(
@@ -192,15 +203,18 @@ class _CartScreenState extends State<CartScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Total:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
                 Text(
-                  'R\$ ${totalPrice.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                  'Total:',
+                  style: AppTextStyle.h3,
                 ),
+                Obx(() => Text(
+                  'R\$ ${cartController.total.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                )),
               ],
             ),
             const SizedBox(height: 16),
@@ -210,17 +224,24 @@ class _CartScreenState extends State<CartScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Compra finalizada!')),
+                    const SnackBar(
+                      content: Text('Compra finalizada com sucesso!'),
+                      duration: Duration(seconds: 2),
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: const Text(
-                  'Finalizar compra',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                child: Text(
+                  'Finalizar Compra',
+                  style: AppTextStyle.withColor(
+                    AppTextStyle.buttonMedium,
+                    Colors.white,
+                  ),
                 ),
               ),
             ),

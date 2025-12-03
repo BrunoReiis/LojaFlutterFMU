@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "38589617980",
+    "project_id": "flutterfmu",
+    "storage_bucket": "flutterfmu.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38589617980:android:7a7ad670eb55238cdc3039",
+        "android_client_info": {
+          "package_name": "com.example.lojaflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBObwILkCOgiFin-wn1lhsSvfVwa4dXsBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
